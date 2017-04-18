@@ -13,8 +13,8 @@ import java.util.*;
 public class MainFrame extends JFrame {
 	JRadioButton jrdEasy = new JRadioButton("Easy Mode");
 	JRadioButton jrdAdv = new JRadioButton("Advance Mode");
-	JComboBox jcba = new JComboBox();
-	JComboBox jcbb = new JComboBox();
+	JComboBox jcbEasy = new JComboBox();
+	JComboBox jcbAdv = new JComboBox();
 	JButton jbtStartEasy = new JButton("Start Encryption");
 	JButton jbtStartAdv = new JButton("Start Encryption");
 	JPanel enPanel = new JPanel();
@@ -33,6 +33,10 @@ public class MainFrame extends JFrame {
 		ButtonGroup group = new ButtonGroup();
 		group.add(jrdEasy);
 		group.add(jrdAdv);
+		group.setSelected(jrdEasy.getModel(), true);
+		jcbAdv.setEnabled(false);
+		jbtStartAdv.setEnabled(false);
+		
 
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setUndecorated(true);
@@ -64,8 +68,18 @@ public class MainFrame extends JFrame {
 				}
 			}
 			panelHolder[1][0].add(jrdEasy);
-			panelHolder[1][1].add(jcba);
+			panelHolder[1][1].add(jcbEasy);
 			panelHolder[1][1].add(jbtStartEasy);
+			jrdEasy.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					jcbAdv.setEnabled(false);
+					jbtStartAdv.setEnabled(false);
+					jcbEasy.setEnabled(true);
+					jbtStartEasy.setEnabled(true);
+					
+				}} );
 		}
 	}
 
@@ -83,13 +97,16 @@ public class MainFrame extends JFrame {
 				}
 			}
 			panelHolder[1][0].add(jrdAdv);
-			panelHolder[1][1].add(jcbb);
-			panelHolder[1][1].add(jbtStartEasy);
+			panelHolder[1][1].add(jcbAdv);
+			panelHolder[1][1].add(jbtStartAdv);
 			jrdAdv.addActionListener(new ActionListener(){
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
+					jcbAdv.setEnabled(true);
+					jbtStartAdv.setEnabled(true);
+					jcbEasy.setEnabled(false);
+					jbtStartEasy.setEnabled(false);
 					
 				}} );
 		}
@@ -104,11 +121,11 @@ public class MainFrame extends JFrame {
 		}
 		public void updateComboBox(){
 			Set<String> keys= driveMapping.keySet();
-			jcba.removeAllItems();
-			jcbb.removeAllItems();
+			jcbEasy.removeAllItems();
+			jcbAdv.removeAllItems();
 			for(String item:keys){
-				jcba.addItem(item);
-				jcbb.addItem(item);
+				jcbEasy.addItem(item);
+				jcbAdv.addItem(item);
 			}
 		}
 
